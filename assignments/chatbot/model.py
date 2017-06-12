@@ -59,8 +59,8 @@ class ChatBotModel(object):
                                               config.NUM_SAMPLES, config.DEC_VOCAB)
         self.softmax_loss_function = sampled_loss
 
-        single_cell = tf.nn.rnn_cell.GRUCell(config.HIDDEN_SIZE)
-        self.cell = tf.nn.rnn_cell.MultiRNNCell([single_cell] * config.NUM_LAYERS)
+        single_cell = tf.contrib.rnn.core_rnn_cell.GRUCell(config.HIDDEN_SIZE)
+        self.cell = tf.contrib.rnn.core_rnn_cell.MultiRNNCell([single_cell] * config.NUM_LAYERS)
 
     def _create_loss(self):
         print('Creating loss... \nIt might take a couple of minutes depending on how many buckets you have.')
