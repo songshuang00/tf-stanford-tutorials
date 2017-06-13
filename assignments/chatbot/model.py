@@ -23,6 +23,8 @@ import tensorflow as tf
 
 import config
 
+import seq2seq
+
 class ChatBotModel(object):
     def __init__(self, forward_only, batch_size):
         """forward_only: if set, we do not construct the backward pass in the model.
@@ -53,9 +55,9 @@ class ChatBotModel(object):
             b = tf.get_variable('proj_b', [config.DEC_VOCAB])
             self.output_projection = (w, b)
 
-        def sampled_loss(inputs, labels):
+        def sampled_loss(labels, inputs):
             labels = tf.reshape(labels, [-1, 1])
-            return tf.nn.sampled_softmax_loss(tf.transpose(w), b, inputs, labels, 
+            return tf.nn.sampled_softmax_loss(tf.transpose(w), b, labels, inputs, 
                                               config.NUM_SAMPLES, config.DEC_VOCAB)
         self.softmax_loss_function = sampled_loss
 
@@ -66,7 +68,7 @@ class ChatBotModel(object):
         print('Creating loss... \nIt might take a couple of minutes depending on how many buckets you have.')
         start = time.time()
         def _seq2seq_f(encoder_inputs, decoder_inputs, do_decode):
-            return tf.nn.seq2seq.embedding_attention_seq2seq(
+            return seq2seq.embedding_attention_seq2seq(
                     encoder_inputs, decoder_inputs, self.cell,
                     num_encoder_symbols=config.ENC_VOCAB,
                     num_decoder_symbols=config.DEC_VOCAB,
@@ -75,7 +77,7 @@ class ChatBotModel(object):
                     feed_previous=do_decode)
 
         if self.fw_only:
-            self.outputs, self.losses = tf.nn.seq2seq.model_with_buckets(
+            self.outputs, self.losses = seq2seq.model_with_buckets(
                                         self.encoder_inputs, 
                                         self.decoder_inputs, 
                                         self.targets,
@@ -90,7 +92,7 @@ class ChatBotModel(object):
                                             self.output_projection[0]) + self.output_projection[1]
                                             for output in self.outputs[bucket]]
         else:
-            self.outputs, self.losses = tf.nn.seq2seq.model_with_buckets(
+            self.outputs, self.losses = seq2seq.model_with_buckets(
                                         self.encoder_inputs, 
                                         self.decoder_inputs, 
                                         self.targets,
