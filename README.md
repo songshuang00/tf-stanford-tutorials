@@ -4,9 +4,8 @@ It will be updated as the class progresses. <br>
 Detailed syllabus and lecture notes can be found here http://cs20si.stanford.edu
 
 # Note 
-This repository is currently in TF 0.12. I'm currently in the process of transitioning it to TF1.1. I will update the repo when this is done.
-
-(My branch is available for TF 1.0. now.)
+This repository is used to be in TF 0.12.
+My branch is available for TF 1.0. now.
 
 ## Models include: <br>
 ### In the folder "examples": <br>
