@@ -6,6 +6,8 @@ Detailed syllabus and lecture notes can be found here http://cs20si.stanford.edu
 # Note (as of May 8)
 This repository is currently in TF 0.12. I'm currently in the process of transitioning it to TF1.1. I will update the repo when this is done.
 
+#(My branch is available for TF 1.O. now.)
+
 ## Models include: <br>
 ### In the folder "examples": <br>
 Linear Regression with Chicago's Fire-Theft dataset<br>
